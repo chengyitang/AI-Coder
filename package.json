@@ -1,0 +1,24 @@
+{
+  "name": "ai-coder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chengyitang/AI-Coder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chengyitang/AI-Coder/issues"
+  },
+  "homepage": "https://github.com/chengyitang/AI-Coder#readme"
+}
