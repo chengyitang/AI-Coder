@@ -10,8 +10,11 @@ import {
 import { z } from "zod";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import path from "path";
 
-dotenv.config();
+// Load .env from root directory
+// When compiled, __dirname will be in dist/, so go up 3 levels to reach root
+dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,

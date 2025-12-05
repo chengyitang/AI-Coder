@@ -10,7 +10,10 @@ const stdio_js_1 = require("@modelcontextprotocol/sdk/server/stdio.js");
 const types_js_1 = require("@modelcontextprotocol/sdk/types.js");
 const openai_1 = __importDefault(require("openai"));
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+const path_1 = __importDefault(require("path"));
+// Load .env from root directory
+// When compiled, __dirname will be in dist/, so go up 3 levels to reach root
+dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../../../.env") });
 const openai = new openai_1.default({
     apiKey: process.env.OPENAI_API_KEY,
 });
