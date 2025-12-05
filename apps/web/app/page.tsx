@@ -4,6 +4,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default function Home() {
   const [description, setDescription] = useState("");
@@ -153,28 +155,68 @@ export default function Home() {
         {result && (
           <div className="mt-8 space-y-8">
             <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden transition-colors duration-200">
-              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-750">
+              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-750 flex justify-between items-center">
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                   Generated Code
                 </h3>
+                {result.language && (
+                  <span className="text-xs px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
+                    {result.language}
+                  </span>
+                )}
               </div>
-              <div className="p-6 bg-gray-900 overflow-x-auto">
-                <pre className="text-green-400 font-mono text-sm">
+              <div className="overflow-x-auto">
+                <SyntaxHighlighter
+                  language={result.language || "text"}
+                  style={darkMode ? oneDark : oneLight}
+                  customStyle={{
+                    margin: 0,
+                    borderRadius: 0,
+                    fontSize: "0.875rem",
+                  }}
+                  showLineNumbers
+                  lineNumberStyle={{
+                    minWidth: "3em",
+                    paddingRight: "1em",
+                    textAlign: "right",
+                    userSelect: "none",
+                  }}
+                >
                   {result.code}
-                </pre>
+                </SyntaxHighlighter>
               </div>
             </div>
 
             <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden transition-colors duration-200">
-              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-750">
+              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-750 flex justify-between items-center">
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                   Generated Tests
                 </h3>
+                {result.language && (
+                  <span className="text-xs px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
+                    {result.language}
+                  </span>
+                )}
               </div>
-              <div className="p-6 bg-gray-900 overflow-x-auto">
-                <pre className="text-green-400 font-mono text-sm">
+              <div className="overflow-x-auto">
+                <SyntaxHighlighter
+                  language={result.language || "text"}
+                  style={darkMode ? oneDark : oneLight}
+                  customStyle={{
+                    margin: 0,
+                    borderRadius: 0,
+                    fontSize: "0.875rem",
+                  }}
+                  showLineNumbers
+                  lineNumberStyle={{
+                    minWidth: "3em",
+                    paddingRight: "1em",
+                    textAlign: "right",
+                    userSelect: "none",
+                  }}
+                >
                   {result.tests}
-                </pre>
+                </SyntaxHighlighter>
               </div>
             </div>
 
