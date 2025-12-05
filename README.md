@@ -6,11 +6,11 @@ An intelligent code generation tool based on AI and MCP (Model Context Protocol)
 
 - 🤖 **AI-Powered**: Uses OpenAI GPT-4o model to generate high-quality code
 - 🔧 **Automatic Test Generation**: Automatically creates unit tests for generated code
-- 🎨 **Modern UI**: 
+- 🎨 **Modern UI**:
   - Dark/Light mode toggle support
   - Beautiful loading animations
   - Responsive design with mobile support
-- 💻 **Syntax Highlighting**: 
+- 💻 **Syntax Highlighting**:
   - Syntax-highlighted code display
   - Line numbers
   - Automatic programming language detection
@@ -20,18 +20,21 @@ An intelligent code generation tool based on AI and MCP (Model Context Protocol)
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **Next.js 16** - React framework
 - **TypeScript** - Type safety
 - **Tailwind CSS 4** - Styling framework
 - **react-syntax-highlighter** - Code highlighting
 
 ### Backend & Agents
+
 - **Node.js** - Runtime environment
 - **Model Context Protocol (MCP)** - Agent communication protocol
 - **OpenAI API** - LLM service
 - **TypeScript** - Type safety
 
 ### Project Structure
+
 ```
 AI-Coder/
 ├── apps/
@@ -53,24 +56,27 @@ AI-Coder/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - OpenAI API Key
 
 ### Installation Steps
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/chengyitang/AI-Coder.git
 cd AI-Coder
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Build agent packages**
+
 ```bash
 cd packages/coder-agent && npm run build
 cd ../qa-agent && npm run build
@@ -107,7 +113,7 @@ npm start
 1. **Describe your software**: Enter a description of the software or feature you want to create in the "Software Description" input field
 2. **Add requirements**: Specify detailed requirements and technical constraints in the "Requirements" input field
 3. **Generate code**: Click the "Generate Software" button
-4. **View results**: 
+4. **View results**:
    - Generated code will be displayed in the "Generated Code" section with syntax highlighting
    - Corresponding test code will be displayed in the "Generated Tests" section
    - API usage statistics will be displayed in the "LLM Usage Stats" section
@@ -115,11 +121,13 @@ npm start
 ### Example
 
 **Software Description:**
+
 ```
 A simple calculator application
 ```
 
 **Requirements:**
+
 ```
 Must support add, subtract, multiply, divide. Handle division by zero.
 ```
@@ -171,4 +179,3 @@ Contributions are welcome! Please feel free to submit Issues and Pull Requests.
 
 - GitHub: [@chengyitang](https://github.com/chengyitang)
 - Issues: [GitHub Issues](https://github.com/chengyitang/AI-Coder/issues)
-
