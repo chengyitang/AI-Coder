@@ -2,9 +2,33 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+1. **Build MCP Servers**: The MCP servers (coder-agent and qa-agent) need to be built before running the web app, as they are executed as child processes:
 
 ```bash
+# From the project root
+cd packages/coder-agent
+npm install
+npm run build
+
+cd ../qa-agent
+npm install
+npm run build
+```
+
+2. **Environment Variables**: Create a `.env` file in the project root with your OpenAI API key:
+
+```bash
+OPENAI_API_KEY=your_api_key_here
+```
+
+### Running the Development Server
+
+After building the MCP servers, run the development server:
+
+```bash
+# From apps/web directory
 npm run dev
 # or
 yarn dev
@@ -15,6 +39,10 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Note on MCP Servers
+
+**You do NOT need to manually run the MCP servers.** They are automatically started as child processes by the web application when needed (via `StdioClientTransport`). However, they must be built first (see Prerequisites above).
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
