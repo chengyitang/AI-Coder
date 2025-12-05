@@ -14,15 +14,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #111827;
+    --foreground: #f9fafb;
   }
-}
-
-/* Dark mode support */
-.dark {
-  --background: #111827;
-  --foreground: #f9fafb;
 }
 
 body {
