@@ -13,6 +13,7 @@ export default function Home() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [copiedSection, setCopiedSection] = useState<string | null>(null);
 
   useEffect(() => {
     // Check system preference or localStorage
@@ -36,6 +37,16 @@ export default function Home() {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
+    }
+  };
+
+  const copyToClipboard = async (text: string, section: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedSection(section);
+      setTimeout(() => setCopiedSection(null), 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
     }
   };
 
@@ -159,11 +170,29 @@ export default function Home() {
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                   Generated Code
                 </h3>
-                {result.language && (
-                  <span className="text-xs px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
-                    {result.language}
-                  </span>
-                )}
+                <div className="flex items-center gap-3">
+                  {result.language && (
+                    <span className="text-xs px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
+                      {result.language}
+                    </span>
+                  )}
+                  <button
+                    onClick={() => copyToClipboard(result.code, "code")}
+                    className="p-2 rounded-lg bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors duration-200 group relative"
+                    aria-label="Copy code"
+                    title="Copy code"
+                  >
+                    {copiedSection === "code" ? (
+                      <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
               <div className="overflow-x-auto">
                 <SyntaxHighlighter
@@ -192,11 +221,29 @@ export default function Home() {
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                   Generated Tests
                 </h3>
-                {result.language && (
-                  <span className="text-xs px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
-                    {result.language}
-                  </span>
-                )}
+                <div className="flex items-center gap-3">
+                  {result.language && (
+                    <span className="text-xs px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
+                      {result.language}
+                    </span>
+                  )}
+                  <button
+                    onClick={() => copyToClipboard(result.tests, "tests")}
+                    className="p-2 rounded-lg bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors duration-200 group relative"
+                    aria-label="Copy tests"
+                    title="Copy tests"
+                  >
+                    {copiedSection === "tests" ? (
+                      <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
               <div className="overflow-x-auto">
                 <SyntaxHighlighter
