@@ -4,23 +4,23 @@
 
 An intelligent code generation tool based on AI and MCP (Model Context Protocol) that automatically generates code and corresponding unit tests from natural language descriptions.
 
-## ✨ Features
+## Features
 
-- 🤖 **AI-Powered**: Uses OpenAI GPT-4o model to generate high-quality code
-- 🔧 **Automatic Test Generation**: Automatically creates unit tests for generated code
-- 🎨 **Modern UI**:
+- **AI-Powered**: Uses LLM to generate high-quality code
+- **Automatic Test Generation**: Automatically creates unit tests for generated code
+- **Modern UI**:
   - Dark/Light mode toggle support
   - Beautiful loading animations
   - Responsive design with mobile support
-- 💻 **Syntax Highlighting**:
+- **Syntax Highlighting**:
   - Syntax-highlighted code display
   - Line numbers
   - Automatic programming language detection
-- 📊 **LLM Usage Tracking**: 
+- **LLM Usage Tracking**: 
   - Per-agent breakdown (Coder Agent / QA Agent)
   - Total tokens consumed
   - API call counts
-- 🏗️ **MCP Architecture**: Multi-agent system with Model Context Protocol
+- **MCP Architecture**: Multi-agent system with Model Context Protocol
 
 ## 🛠️ Tech Stack
 
@@ -114,7 +114,7 @@ npm run build
 npm start
 ```
 
-## 📖 Usage Guide
+## Usage Guide
 
 1. **Describe your software**: Enter a description of the software or feature you want to create in the "Software Description" input field
 2. **Add requirements**: Specify detailed requirements and technical constraints in the "Requirements" input field
@@ -141,7 +141,7 @@ A software application that allows scouts and coaches to analyze and track the p
 4. Store athlete profiles with historical performance data
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ### Multi-Agent System with MCP
 
@@ -194,7 +194,7 @@ This project implements a multi-agent system using the Model Context Protocol (M
 - **Communication**: JSON-RPC over stdio
 - **Connection Management**: Proper `connect()` and `disconnect()` lifecycle
 
-## 📊 LLM Usage Tracking
+## LLM Usage Tracking
 
 The system tracks and displays LLM usage broken down by agent:
 
@@ -229,16 +229,3 @@ The main UI component is located at `apps/web/app/page.tsx`, styled with Tailwin
 
 - Code generation logic: `packages/coder-agent/src/index.ts`
 - Test generation logic: `packages/qa-agent/src/index.ts`
-
-## 📝 License
-
-ISC
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit Issues and Pull Requests.
-
-## 📧 Contact
-
-- GitHub: [@chengyitang](https://github.com/chengyitang)
-- Issues: [GitHub Issues](https://github.com/chengyitang/AI-Coder/issues)
