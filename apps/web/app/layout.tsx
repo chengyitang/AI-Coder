@@ -1,3 +1,6 @@
+// Name: Cheng-Yi Tang, Shih-Cheng Lu, Han Wang, Jiazhao Lou
+// Student ID: 77646578, 31864588, 23322916, 65305787
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";

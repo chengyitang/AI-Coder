@@ -1,5 +1,5 @@
-// Name: AI Agent
-// Student ID: 000000
+// Name: Cheng-Yi Tang, Shih-Cheng Lu, Han Wang, Jiazhao Lou
+// Student ID: 77646578, 31864588, 23322916, 65305787
 
 import { NextResponse } from "next/server";
 import { ManagerAgent } from "@/lib/manager";
