@@ -227,25 +227,69 @@ export default function Home() {
                     LLM Usage Stats
                   </h3>
                 </div>
-                <div className="p-6">
-                  <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                    <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                        Total Tokens
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">
-                        {result.usage.tokens}
-                      </dd>
+                <div className="p-6 space-y-6">
+                  {/* Agent Breakdown */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Coder Agent */}
+                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                      <h4 className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-3 flex items-center">
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                        Coder Agent
+                      </h4>
+                      <dl className="space-y-2">
+                        <div className="flex justify-between">
+                          <dt className="text-sm text-gray-600 dark:text-gray-400">Tokens</dt>
+                          <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">{result.usage.coderAgent?.tokens || 0}</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-sm text-gray-600 dark:text-gray-400">API Calls</dt>
+                          <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">{result.usage.coderAgent?.calls || 0}</dd>
+                        </div>
+                      </dl>
                     </div>
-                    <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                        API Calls
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">
-                        {result.usage.calls}
-                      </dd>
+                    {/* QA Agent */}
+                    <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                      <h4 className="text-sm font-semibold text-green-800 dark:text-green-300 mb-3 flex items-center">
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        QA Agent
+                      </h4>
+                      <dl className="space-y-2">
+                        <div className="flex justify-between">
+                          <dt className="text-sm text-gray-600 dark:text-gray-400">Tokens</dt>
+                          <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">{result.usage.qaAgent?.tokens || 0}</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-sm text-gray-600 dark:text-gray-400">API Calls</dt>
+                          <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">{result.usage.qaAgent?.calls || 0}</dd>
+                        </div>
+                      </dl>
                     </div>
-                  </dl>
+                  </div>
+                  {/* Total Summary */}
+                  <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                      <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        Total Usage
+                      </h4>
+                      <dl className="grid grid-cols-2 gap-4">
+                        <div className="flex justify-between">
+                          <dt className="text-sm text-gray-600 dark:text-gray-400">Total Tokens</dt>
+                          <dd className="text-sm font-bold text-gray-900 dark:text-gray-100">{result.usage.total?.tokens || 0}</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-sm text-gray-600 dark:text-gray-400">Total API Calls</dt>
+                          <dd className="text-sm font-bold text-gray-900 dark:text-gray-100">{result.usage.total?.calls || 0}</dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

@@ -8,6 +8,8 @@ import path from "path";
 export class ManagerAgent {
     private coderClient: Client;
     private qaClient: Client;
+    private coderTransport: StdioClientTransport | null = null;
+    private qaTransport: StdioClientTransport | null = null;
 
     constructor() {
         this.coderClient = new Client(
@@ -32,7 +34,7 @@ export class ManagerAgent {
     }
 
     async connect() {
-        const coderTransport = new StdioClientTransport({
+        this.coderTransport = new StdioClientTransport({
             command: "node",
             args: [
                 path.resolve(
@@ -42,15 +44,24 @@ export class ManagerAgent {
             ],
         });
 
-        const qaTransport = new StdioClientTransport({
+        this.qaTransport = new StdioClientTransport({
             command: "node",
             args: [
                 path.resolve(process.cwd(), "../../packages/qa-agent/dist/index.js"),
             ],
         });
 
-        await this.coderClient.connect(coderTransport);
-        await this.qaClient.connect(qaTransport);
+        await this.coderClient.connect(this.coderTransport);
+        await this.qaClient.connect(this.qaTransport);
+    }
+
+    async disconnect() {
+        try {
+            await this.coderClient.close();
+            await this.qaClient.close();
+        } catch (error) {
+            console.error("Error closing MCP connections:", error);
+        }
     }
 
     async generateSoftware(description: string, requirements: string) {
@@ -83,8 +94,18 @@ export class ManagerAgent {
             tests,
             language,
             usage: {
-                tokens: (coderUsage?.tokens || 0) + (qaUsage?.tokens || 0),
-                calls: (coderUsage?.calls || 0) + (qaUsage?.calls || 0),
+                coderAgent: {
+                    tokens: coderUsage?.tokens || 0,
+                    calls: coderUsage?.calls || 0,
+                },
+                qaAgent: {
+                    tokens: qaUsage?.tokens || 0,
+                    calls: qaUsage?.calls || 0,
+                },
+                total: {
+                    tokens: (coderUsage?.tokens || 0) + (qaUsage?.tokens || 0),
+                    calls: (coderUsage?.calls || 0) + (qaUsage?.calls || 0),
+                },
             },
         };
     }
