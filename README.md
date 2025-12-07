@@ -1,5 +1,7 @@
 # AI Code Generator
 
+> **UCI MSWE 270 Final Project - Group 10**
+
 An intelligent code generation tool based on AI and MCP (Model Context Protocol) that automatically generates code and corresponding unit tests from natural language descriptions.
 
 ## ✨ Features
@@ -14,8 +16,11 @@ An intelligent code generation tool based on AI and MCP (Model Context Protocol)
   - Syntax-highlighted code display
   - Line numbers
   - Automatic programming language detection
-- 📊 **Usage Statistics**: Real-time display of API call counts and token consumption
-- 🏗️ **Architecture**: Modular design based on MCP protocol
+- 📊 **LLM Usage Tracking**: 
+  - Per-agent breakdown (Coder Agent / QA Agent)
+  - Total tokens consumed
+  - API call counts
+- 🏗️ **MCP Architecture**: Multi-agent system with Model Context Protocol
 
 ## 🛠️ Tech Stack
 
@@ -40,15 +45,15 @@ AI-Coder/
 ├── apps/
 │   └── web/                 # Next.js frontend application
 │       ├── app/             # App Router
-│       │   ├── api/         # API routes
-│       │   ├── page.tsx     # Main page
+│       │   ├── api/         # API routes (generate endpoint)
+│       │   ├── page.tsx     # Main page (UI)
 │       │   └── layout.tsx   # Layout component
-│       └── lib/             # Utility functions
-│           └── manager.ts   # MCP Manager
+│       └── lib/
+│           └── manager.ts   # MCP Manager (coordinates agents)
 ├── packages/
-│   ├── coder-agent/         # Code generation agent
-│   ├── qa-agent/            # Test generation agent
-│   └── shared/              # Shared type definitions
+│   ├── coder-agent/         # Code generation agent (MCP Server)
+│   └── qa-agent/            # Test generation agent (MCP Server)
+├── .env.example             # Environment variables template
 └── README.md
 ```
 
@@ -85,10 +90,11 @@ cd ../..
 
 4. **Configure environment variables**
 
-Create a `.env` file in the project root (or in each agent directory):
+Copy the example file and add your OpenAI API key:
 
-```env
-OPENAI_API_KEY=your_openai_api_key_here
+```bash
+cp .env.example .env
+# Edit .env and add your OPENAI_API_KEY
 ```
 
 5. **Start the development server**
@@ -116,47 +122,104 @@ npm start
 4. **View results**:
    - Generated code will be displayed in the "Generated Code" section with syntax highlighting
    - Corresponding test code will be displayed in the "Generated Tests" section
-   - API usage statistics will be displayed in the "LLM Usage Stats" section
+   - LLM usage statistics broken down by agent will be displayed in the "LLM Usage Stats" section
 
 ### Example
 
 **Software Description:**
 
 ```
-A simple calculator application
+A software application that allows scouts and coaches to analyze and track the performance of individual athletes in various sports.
 ```
 
 **Requirements:**
 
 ```
-Must support add, subtract, multiply, divide. Handle division by zero.
+1. Users can input performance data (speed, agility, accuracy, endurance) for each athlete
+2. Generate detailed reports with insights on strengths and weaknesses
+3. Compare performance of multiple athletes side by side
+4. Store athlete profiles with historical performance data
 ```
 
 ## 🏗️ Architecture
 
-### MCP (Model Context Protocol)
+### Multi-Agent System with MCP
 
-This project uses the MCP protocol to enable communication between agents:
+This project implements a multi-agent system using the Model Context Protocol (MCP) for inter-agent communication:
 
-- **Coder Agent**: Responsible for generating code based on descriptions and requirements
-- **QA Agent**: Responsible for creating unit tests for the generated code
-- **Manager**: Coordinates the workflow of multiple agents
+| Component | Role | MCP Role | Tools |
+|-----------|------|----------|-------|
+| **Manager** | Coordinates workflow | MCP Client | - |
+| **Coder Agent** | Generates code | MCP Server | `generate_code` |
+| **QA Agent** | Generates tests | MCP Server | `generate_tests` |
+
+### Collaboration Pattern
+
+```
+┌─────────────┐     ┌──────────────┐     ┌────────────┐
+│    User     │────▶│   Manager    │────▶│   Coder    │
+│   (Input)   │     │  (Manager)   │     │   Agent    │
+└─────────────┘     └──────┬───────┘     └─────┬──────┘
+                          │                    │
+                          │  1. generate_code  │
+                          │◀───────────────────┤
+                          │                    │
+                          │     ┌────────────┐ │
+                          │────▶│     QA     │ │
+                          │     │   Agent    │ │
+                          │     └─────┬──────┘ │
+                          │           │        │
+                          │  2. generate_tests │
+                          │◀──────────┤        │
+                          │           │        │
+                    ┌─────▼─────┐     │        │
+                    │  Return   │     │        │
+                    │  Results  │     │        │
+                    └───────────┘     │        │
+```
 
 ### Workflow
 
-1. User submits description and requirements
-2. Manager calls Coder Agent to generate code
-3. Manager retrieves code and language type
-4. Manager calls QA Agent to generate tests
-5. Returns code, tests, and usage statistics
+1. User submits description and requirements via UI
+2. Manager establishes MCP connections to agents
+3. Manager calls **Coder Agent** → generates code
+4. Manager calls **QA Agent** → generates tests based on code
+5. Manager aggregates results and usage statistics
+6. Manager closes MCP connections (resource cleanup)
+7. Returns code, tests, and per-agent usage statistics to UI
+
+### MCP Implementation Details
+
+- **Transport**: `StdioClientTransport` / `StdioServerTransport`
+- **Communication**: JSON-RPC over stdio
+- **Connection Management**: Proper `connect()` and `disconnect()` lifecycle
+
+## 📊 LLM Usage Tracking
+
+The system tracks and displays LLM usage broken down by agent:
+
+```
+┌─────────────────────────────────────┐
+│          LLM Usage Stats            │
+├─────────────────┬───────────────────┤
+│  🔵 Coder Agent │  🟢 QA Agent      │
+│  Tokens: 500    │  Tokens: 300      │
+│  API Calls: 1   │  API Calls: 1     │
+├─────────────────┴───────────────────┤
+│  📊 Total Usage                     │
+│  Total Tokens: 800                  │
+│  Total API Calls: 2                 │
+└─────────────────────────────────────┘
+```
 
 ## 🔧 Development Guide
 
 ### Adding a New Agent
 
 1. Create a new agent directory under `packages/`
-2. Implement the MCP Server interface
-3. Register the new agent in `apps/web/lib/manager.ts`
+2. Implement the MCP Server interface using `@modelcontextprotocol/sdk`
+3. Define tools with `ListToolsRequestSchema` and `CallToolRequestSchema`
+4. Register the new agent in `apps/web/lib/manager.ts`
 
 ### Modifying UI
 

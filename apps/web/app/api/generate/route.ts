@@ -5,10 +5,11 @@ import { NextResponse } from "next/server";
 import { ManagerAgent } from "@/lib/manager";
 
 export async function POST(request: Request) {
+    const manager = new ManagerAgent();
+    
     try {
         const { description, requirements } = await request.json();
 
-        const manager = new ManagerAgent();
         await manager.connect();
 
         const result = await manager.generateSoftware(description, requirements);
@@ -20,5 +21,8 @@ export async function POST(request: Request) {
             { error: "Failed to generate software" },
             { status: 500 }
         );
+    } finally {
+        // Always close MCP connections to prevent resource leaks
+        await manager.disconnect();
     }
 }
