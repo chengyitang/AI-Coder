@@ -33,11 +33,17 @@ export default function Home() {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
     localStorage.setItem("theme", newDarkMode ? "dark" : "light");
+    
+    // Force immediate update
+    const htmlElement = document.documentElement;
     if (newDarkMode) {
-      document.documentElement.classList.add("dark");
+      htmlElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      htmlElement.classList.remove("dark");
     }
+    
+    // Debug: verify class was added/removed
+    console.log("Dark mode toggled:", newDarkMode, "HTML classList:", htmlElement.classList.toString());
   };
 
   const copyToClipboard = async (text: string, section: string) => {
